@@ -10,7 +10,7 @@ export default class App extends Component {
     return (
       <div>
         <Navbar/>
-        <News />
+        <News pageSize={5} country="in" apiKey="6d026a2663364991846858f60eedf8fb" category="science"/>
       </div>
     )
   }
