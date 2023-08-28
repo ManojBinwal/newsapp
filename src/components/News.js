@@ -32,38 +32,53 @@ export class News extends Component {
   }
   //asycronous function to fetch api call using componentDidMount
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}`
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}`
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
     this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
   }
-  handleNextClick = async () => {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
+
+  async updateNews(){
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log("next" + this.state.page)
-    this.setState({
-      page: this.state.page + 1,
-      articles: parsedData.articles,
-      loading: false
-    })
+    console.log(parsedData);
+    this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
+
+  }
+
+  handleNextClick = async () => {
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
+    // this.setState({ loading: true });
+    // let data = await fetch(url);
+    // let parsedData = await data.json();
+    // console.log("next" + this.state.page)
+    // this.setState({
+    //   page: this.state.page + 1,
+    //   articles: parsedData.articles,
+    //   loading: false
+    // })
+    this.setState({page: this.state.page + 1})
+    this.updateNews()
   }
 
   handlePrevClick = async () => {
-    console.log("prev" + this.state.page)
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
-    this.setState({ loading: true });
-    let data = await fetch(url);
-    let parsedData = await data.json();
+    // console.log("prev" + this.state.page)
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
+    // this.setState({ loading: true });
+    // let data = await fetch(url);
+    // let parsedData = await data.json();
 
-    this.setState({
-      page: this.state.page - 1,
-      articles: parsedData.articles,
-      loading: false
-    })
+    // this.setState({
+    //   page: this.state.page - 1,
+    //   articles: parsedData.articles,
+    //   loading: false
+    // })
+    this.setState({page: this.state.page - 1})
+    this.updateNews()
   }
   showTotalResults = () => {
     console.log(this.state.totalResults)
