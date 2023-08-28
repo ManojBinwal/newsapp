@@ -17,3 +17,8 @@ categories
        science
        sports
        technology 
+
+
+
+
+       https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=768c40d3513204982ab829cecf984b3b
