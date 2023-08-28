@@ -8,20 +8,20 @@ export class News extends Component {
   static defaultProps = {
     country: 'in',
     pageSize: 8,
-    apiKey:"fe07c651e81947ab852ed91aeef51599",
-    category:"general"
-    
+    apiKey: "fe07c651e81947ab852ed91aeef51599",
+    category: "general"
+
   }
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number.isRequired,
-    apiKey:PropTypes.string.isRequired,
+    apiKey: PropTypes.string.isRequired,
     category: PropTypes.string,
   }
 
   //define constructor
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // console.log("Hello I am a contructor for the news component")
     this.state = {
       articles: [],
@@ -29,6 +29,10 @@ export class News extends Component {
       page: 1,
       totalResults: 20
     }
+    document.title = this.capitalize(`${this.props.category} - NewsDonkey`)
+  }
+  capitalize = (s) => {
+    return s[0].toUpperCase() + s.slice(1);
   }
   //asycronous function to fetch api call using componentDidMount
   async componentDidMount() {
@@ -36,16 +40,16 @@ export class News extends Component {
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log(parsedData);
+    // console.log(parsedData);
     this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
   }
 
-  async updateNews(){
+  async updateNews() {
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log(parsedData);
+    // console.log(parsedData);
     this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
 
   }
@@ -61,7 +65,7 @@ export class News extends Component {
     //   articles: parsedData.articles,
     //   loading: false
     // })
-    this.setState({page: this.state.page + 1})
+    this.setState({ page: this.state.page + 1 })
     this.updateNews()
   }
 
@@ -77,7 +81,7 @@ export class News extends Component {
     //   articles: parsedData.articles,
     //   loading: false
     // })
-    this.setState({page: this.state.page - 1})
+    this.setState({ page: this.state.page - 1 })
     this.updateNews()
   }
   showTotalResults = () => {
@@ -85,10 +89,10 @@ export class News extends Component {
   }
   render() {
     return (
-        this.state.loading ? 
+      this.state.loading ?
         <Spinner /> :
         <div className='container my-3 '>
-          <div className='d-flex justify-content-center'><h2 ><strong>NewsDonkey - Top Headlines</strong> </h2></div>
+          <div className='d-flex justify-content-center'><h2 ><strong>NewsDonkey - Top {this.capitalize(`${this.props.category}`)} Headlines</strong> </h2></div>
           <div className='container d-flex justify-content-between'>
             <button disabled={this.state.page <= 1} rel="noreferrer" type="button" className="btn btn-dark" onClick={this.handlePrevClick}> &larr; prev</button>
             <button disabled={this.state.page > Math.ceil(this.state.totalResults / this.props.pageSize) - 1} rel="noreferrer" type="button" className="btn btn-dark" onClick={this.handleNextClick} > next &rarr;</button>
@@ -105,7 +109,7 @@ export class News extends Component {
                   author={element.author}
                   date={element.publishedAt}
                   source={element.source.name}
-                   />
+                />
               </div>
               )
             })}
@@ -115,8 +119,6 @@ export class News extends Component {
             <button disabled={this.state.page > Math.ceil(this.state.totalResults / this.props.pageSize) - 1} rel="noreferrer" type="button" className="btn btn-dark" onClick={event => (this.handNextClick, this.showTotalResults)} > next &rarr;</button>
           </div>
         </div>
-
-
     )
   }
 }
