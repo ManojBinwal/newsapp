@@ -7,7 +7,7 @@ import LoadingBar from 'react-top-loading-bar';
 
 export default class App extends Component {
   c = "John"
-  apiKey = "3442dd4c2fd1462787da05c659994e13"
+  apiKey = process.env.REACT_APP_NEWS_API
   country = "in"
 
   state = {
